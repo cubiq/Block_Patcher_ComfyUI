@@ -1,0 +1,14 @@
+[project]
+name = "block_patcher_comfyui"
+description = "This is an (very) advanced and (very) experimental custom node for the ComfyUI. It allows you to iteratively change the blocks weights of Flux models and check the difference each value makes."
+version = "1.0.0"
+license = {file = "LICENSE"}
+
+[project.urls]
+Repository = "https://github.com/cubiq/Block_Patcher_ComfyUI"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "Block_Patcher_ComfyUI"
+Icon = ""
