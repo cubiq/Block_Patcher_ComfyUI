@@ -1,0 +1,588 @@
+{
+  "last_node_id": 65,
+  "last_link_id": 137,
+  "nodes": [
+    {
+      "id": 11,
+      "type": "DualCLIPLoader",
+      "pos": {
+        "0": 138,
+        "1": 35
+      },
+      "size": {
+        "0": 210,
+        "1": 106
+      },
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            10
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DualCLIPLoader"
+      },
+      "widgets_values": [
+        "t5xxl_fp16.safetensors",
+        "clip_l.safetensors",
+        "flux"
+      ]
+    },
+    {
+      "id": 12,
+      "type": "UNETLoader",
+      "pos": {
+        "0": 553,
+        "1": -111
+      },
+      "size": {
+        "0": 229.8605194091797,
+        "1": 82
+      },
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            131
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoader"
+      },
+      "widgets_values": [
+        "flux1-dev.sft",
+        "fp8_e4m3fn"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "CLIPTextEncode",
+      "pos": {
+        "0": 415,
+        "1": 35
+      },
+      "size": {
+        "0": 366.7709045410156,
+        "1": 201.41677856445312
+      },
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 10
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            132
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "black cat sniffing a succulent plant"
+      ]
+    },
+    {
+      "id": 59,
+      "type": "EmptySD3LatentImage",
+      "pos": {
+        "0": 468,
+        "1": 303
+      },
+      "size": {
+        "0": 315,
+        "1": 106
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            133
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptySD3LatentImage"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        1
+      ]
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": {
+        "0": 1377,
+        "1": -31
+      },
+      "size": {
+        "0": 140,
+        "1": 46
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 134
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            135
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 65,
+      "type": "PlotBlockParams",
+      "pos": {
+        "0": 1584,
+        "1": 33
+      },
+      "size": [
+        210,
+        102
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 135
+        },
+        {
+          "name": "params",
+          "type": "SAMPLER_PARAMS",
+          "link": 136
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            137
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PlotBlockParams"
+      },
+      "widgets_values": [
+        0,
+        "true"
+      ]
+    },
+    {
+      "id": 64,
+      "type": "FluxBlockPatcherSampler",
+      "pos": {
+        "0": 891,
+        "1": -32
+      },
+      "size": [
+        339.0323991530754,
+        299.821227993353
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 131
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 132
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 133
+        }
+      ],
+      "outputs": [
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            134
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "sampler_params",
+          "type": "SAMPLER_PARAMS",
+          "links": [
+            136
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "patched_blocks",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "FluxBlockPatcherSampler"
+      },
+      "widgets_values": [
+        0,
+        "fixed",
+        24,
+        "deis",
+        "beta",
+        3,
+        "double_blocks\\.0\\.=1.1\ndouble_blocks\\.1\\.=1.1\ndouble_blocks\\.2\\.=1.1\ndouble_blocks\\.3\\.=1.1"
+      ]
+    },
+    {
+      "id": 10,
+      "type": "VAELoader",
+      "pos": {
+        "0": 1020,
+        "1": 319
+      },
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            12
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "ae.sft"
+      ]
+    },
+    {
+      "id": 26,
+      "type": "PreviewImage",
+      "pos": {
+        "0": 1851,
+        "1": 30
+      },
+      "size": [
+        865.0372553163784,
+        918.2602634191438
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 137
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    }
+  ],
+  "links": [
+    [
+      10,
+      11,
+      0,
+      6,
+      0,
+      "CLIP"
+    ],
+    [
+      12,
+      10,
+      0,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      131,
+      12,
+      0,
+      64,
+      0,
+      "MODEL"
+    ],
+    [
+      132,
+      6,
+      0,
+      64,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      133,
+      59,
+      0,
+      64,
+      2,
+      "LATENT"
+    ],
+    [
+      134,
+      64,
+      0,
+      8,
+      0,
+      "LATENT"
+    ],
+    [
+      135,
+      8,
+      0,
+      65,
+      0,
+      "IMAGE"
+    ],
+    [
+      136,
+      64,
+      1,
+      65,
+      1,
+      "SAMPLER_PARAMS"
+    ],
+    [
+      137,
+      65,
+      0,
+      26,
+      0,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.630394086312919,
+      "offset": [
+        -175.11789190414686,
+        613.9746410020917
+      ]
+    },
+    "groupNodes": {
+      "test": {
+        "nodes": [
+          {
+            "type": "PrimitiveNode",
+            "pos": [
+              88,
+              617
+            ],
+            "size": {
+              "0": 210,
+              "1": 82
+            },
+            "flags": {},
+            "order": 5,
+            "mode": 0,
+            "outputs": [
+              {
+                "name": "INT",
+                "type": "INT",
+                "links": [],
+                "widget": {
+                  "name": "width"
+                }
+              }
+            ],
+            "title": "width",
+            "properties": {
+              "Run widget replace on values": false
+            },
+            "index": 0
+          },
+          {
+            "type": "PrimitiveNode",
+            "pos": [
+              87,
+              745
+            ],
+            "size": {
+              "0": 210,
+              "1": 82
+            },
+            "flags": {},
+            "order": 6,
+            "mode": 0,
+            "outputs": [
+              {
+                "name": "INT",
+                "type": "INT",
+                "links": [],
+                "widget": {
+                  "name": "height"
+                }
+              }
+            ],
+            "title": "height",
+            "properties": {
+              "Run widget replace on values": false
+            },
+            "index": 1
+          },
+          {
+            "type": "EmptyLatentImage",
+            "pos": [
+              402,
+              596
+            ],
+            "size": {
+              "0": 315,
+              "1": 106
+            },
+            "flags": {},
+            "order": 9,
+            "mode": 0,
+            "inputs": [
+              {
+                "name": "width",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "width"
+                },
+                "slot_index": 0
+              },
+              {
+                "name": "height",
+                "type": "INT",
+                "link": null,
+                "widget": {
+                  "name": "height"
+                },
+                "slot_index": 1
+              }
+            ],
+            "outputs": [
+              {
+                "name": "LATENT",
+                "type": "LATENT",
+                "links": [],
+                "slot_index": 0
+              }
+            ],
+            "properties": {
+              "Node name for S&R": "EmptyLatentImage"
+            },
+            "widgets_values": [
+              1024,
+              1024,
+              1
+            ],
+            "index": 2
+          }
+        ],
+        "links": [
+          [
+            0,
+            0,
+            2,
+            0,
+            32,
+            "INT"
+          ],
+          [
+            1,
+            0,
+            2,
+            1,
+            33,
+            "INT"
+          ]
+        ],
+        "external": [
+          [
+            2,
+            0,
+            "LATENT"
+          ]
+        ]
+      }
+    }
+  },
+  "version": 0.4
+}
