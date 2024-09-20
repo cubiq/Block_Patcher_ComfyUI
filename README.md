@@ -29,7 +29,69 @@ To patch all the single blocks you can use:
 single_blocks=1.1
 ```
 
-The `Block Params Plot` node will then take the output of this iterator and plot the parameters directly onto the images.
+To iterate through all the blocks one by one you could do
+
+```
+double_blocks\.0\.=1.1
+double_blocks\.1\.=1.1
+double_blocks\.2\.=1.1
+double_blocks\.3\.=1.1
+double_blocks\.4\.=1.1
+double_blocks\.5\.=1.1
+double_blocks\.6\.=1.1
+double_blocks\.7\.=1.1
+double_blocks\.8\.=1.1
+double_blocks\.9\.=1.1
+double_blocks\.10\.=1.1
+double_blocks\.11\.=1.1
+double_blocks\.12\.=1.1
+double_blocks\.13\.=1.1
+double_blocks\.14\.=1.1
+double_blocks\.15\.=1.1
+double_blocks\.16\.=1.1
+double_blocks\.17\.=1.1
+double_blocks\.18\.=1.1
+single_blocks\.0\.=1.1
+single_blocks\.1\.=1.1
+single_blocks\.2\.=1.1
+single_blocks\.3\.=1.1
+single_blocks\.4\.=1.1
+single_blocks\.5\.=1.1
+single_blocks\.6\.=1.1
+single_blocks\.7\.=1.1
+single_blocks\.8\.=1.1
+single_blocks\.9\.=1.1
+single_blocks\.10\.=1.1
+single_blocks\.11\.=1.1
+single_blocks\.12\.=1.1
+single_blocks\.13\.=1.1
+single_blocks\.14\.=1.1
+single_blocks\.15\.=1.1
+single_blocks\.16\.=1.1
+single_blocks\.17\.=1.1
+single_blocks\.18\.=1.1
+single_blocks\.19\.=1.1
+single_blocks\.20\.=1.1
+single_blocks\.21\.=1.1
+single_blocks\.22\.=1.1
+single_blocks\.23\.=1.1
+single_blocks\.24\.=1.1
+single_blocks\.25\.=1.1
+single_blocks\.26\.=1.1
+single_blocks\.27\.=1.1
+single_blocks\.28\.=1.1
+single_blocks\.29\.=1.1
+single_blocks\.30\.=1.1
+single_blocks\.31\.=1.1
+single_blocks\.32\.=1.1
+single_blocks\.33\.=1.1
+single_blocks\.34\.=1.1
+single_blocks\.35\.=1.1
+single_blocks\.36\.=1.1
+single_blocks\.37\.=1.1
+```
+
+The `Plot Block Params` node will then take the output of this iterator and plot the parameters directly onto the images.
 
 
 ## TODO
