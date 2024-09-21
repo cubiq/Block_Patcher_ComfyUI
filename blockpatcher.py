@@ -172,6 +172,7 @@ class PlotBlockParams:
 
 
 class FluxBlockShareKV:
+
     @classmethod
     def INPUT_TYPES(s):
         double_blocks_in_def = []
@@ -229,29 +230,23 @@ class FluxBlockShareKV:
 
         from types import MethodType
 
+        from comfy.ldm.flux.layers import DoubleStreamBlock, SingleStreamBlock
+
         for i in range(len(double_blocks)):
-            if hasattr(double_blocks[i], "sharekv_original_forward"):
-                setattr(double_blocks[i], "forward",
-                        MethodType(double_blocks[i].sharekv_original_forward, double_blocks[i]))
+            if i in share_double_blocks_layers:
+                setattr(double_blocks[i], "forward", MethodType(
+                    gen_double_blocks_new_forward(i), double_blocks[i]))
+            else:
+                setattr(double_blocks[i], "forward", MethodType(
+                    DoubleStreamBlock.forward, double_blocks[i]))
 
         for i in range(len(single_blocks)):
-            if hasattr(single_blocks[i], "sharekv_original_forward"):
-                setattr(single_blocks[i], "forward",
-                        MethodType(single_blocks[i].sharekv_original_forward, single_blocks[i]))
-
-        for i in share_double_blocks_layers:
-            setattr(double_blocks[i], "sharekv_original_forward", MethodType(
-                double_blocks[i].forward, double_blocks[i]))
-
-            setattr(double_blocks[i], "forward", MethodType(
-                gen_double_blocks_new_forward(i), double_blocks[i]))
-
-        for i in share_single_blocks_layers:
-            setattr(single_blocks[i], "sharekv_original_forward", MethodType(
-                single_blocks[i].forward, single_blocks[i]))
-
-            setattr(single_blocks[i], "forward", MethodType(
-                gen_single_block_new_forward(i), single_blocks[i]))
+            if i in share_single_blocks_layers:
+                setattr(single_blocks[i], "forward", MethodType(
+                    gen_single_block_new_forward(i), single_blocks[i]))
+            else:
+                setattr(single_blocks[i], "forward", MethodType(
+                    SingleStreamBlock.forward, single_blocks[i]))
 
         return (model,)
 
