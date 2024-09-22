@@ -1,6 +1,6 @@
 {
-  "last_node_id": 65,
-  "last_link_id": 137,
+  "last_node_id": 68,
+  "last_link_id": 146,
   "nodes": [
     {
       "id": 11,
@@ -57,7 +57,7 @@
           "name": "MODEL",
           "type": "MODEL",
           "links": [
-            131
+            140
           ],
           "slot_index": 0,
           "shape": 3
@@ -69,6 +69,221 @@
       "widgets_values": [
         "flux1-dev.sft",
         "fp8_e4m3fn"
+      ]
+    },
+    {
+      "id": 65,
+      "type": "PlotBlockParams",
+      "pos": {
+        "0": 1584,
+        "1": 33
+      },
+      "size": {
+        "0": 210,
+        "1": 102
+      },
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 135
+        },
+        {
+          "name": "params",
+          "type": "SAMPLER_PARAMS",
+          "link": 142
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            137
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PlotBlockParams"
+      },
+      "widgets_values": [
+        0,
+        "true"
+      ]
+    },
+    {
+      "id": 26,
+      "type": "PreviewImage",
+      "pos": {
+        "0": 1851,
+        "1": 30
+      },
+      "size": {
+        "0": 865.0372314453125,
+        "1": 918.26025390625
+      },
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 137
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": {
+        "0": 1365,
+        "1": 7
+      },
+      "size": {
+        "0": 140,
+        "1": 46
+      },
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 141
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            135
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      }
+    },
+    {
+      "id": 10,
+      "type": "VAELoader",
+      "pos": {
+        "0": 1089,
+        "1": 445
+      },
+      "size": {
+        "0": 210,
+        "1": 58
+      },
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            12
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "ae.sft"
+      ]
+    },
+    {
+      "id": 66,
+      "type": "FluxBlockPatcherSampler",
+      "pos": {
+        "0": 899,
+        "1": 45
+      },
+      "size": [
+        393.17110285341823,
+        321.31410750088173
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 140
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 139
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 146
+        }
+      ],
+      "outputs": [
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            141
+          ],
+          "shape": 3,
+          "slot_index": 0
+        },
+        {
+          "name": "sampler_params",
+          "type": "SAMPLER_PARAMS",
+          "links": [
+            142
+          ],
+          "shape": 3,
+          "slot_index": 1
+        },
+        {
+          "name": "patched_blocks",
+          "type": "STRING",
+          "links": null,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "FluxBlockPatcherSampler"
+      },
+      "widgets_values": [
+        0,
+        "fixed",
+        24,
+        "euler",
+        "simple",
+        3.5,
+        0.8,
+        "double_blocks\\.([0-9]+)\\.(img|txt)_(mod|attn|mlp\\.[02])\\.(lin|qkv|proj)\\.(weight|bias)=1.1\nsingle_blocks\\.([0-9]+)\\.(linear[12]|modulation\\.lin)\\.(weight|bias)=1.05"
       ]
     },
     {
@@ -97,7 +312,7 @@
           "name": "CONDITIONING",
           "type": "CONDITIONING",
           "links": [
-            132
+            139
           ],
           "slot_index": 0
         }
@@ -121,7 +336,7 @@
         "1": 106
       },
       "flags": {},
-      "order": 2,
+      "order": 3,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -129,7 +344,7 @@
           "name": "LATENT",
           "type": "LATENT",
           "links": [
-            133
+            146
           ],
           "slot_index": 0,
           "shape": 3
@@ -143,220 +358,6 @@
         1024,
         1
       ]
-    },
-    {
-      "id": 8,
-      "type": "VAEDecode",
-      "pos": {
-        "0": 1377,
-        "1": -31
-      },
-      "size": {
-        "0": 140,
-        "1": 46
-      },
-      "flags": {},
-      "order": 6,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 134
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 12
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            135
-          ],
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEDecode"
-      }
-    },
-    {
-      "id": 65,
-      "type": "PlotBlockParams",
-      "pos": {
-        "0": 1584,
-        "1": 33
-      },
-      "size": [
-        210,
-        102
-      ],
-      "flags": {},
-      "order": 7,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 135
-        },
-        {
-          "name": "params",
-          "type": "SAMPLER_PARAMS",
-          "link": 136
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            137
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "PlotBlockParams"
-      },
-      "widgets_values": [
-        0,
-        "true"
-      ]
-    },
-    {
-      "id": 64,
-      "type": "FluxBlockPatcherSampler",
-      "pos": {
-        "0": 891,
-        "1": -32
-      },
-      "size": [
-        339.0323991530754,
-        299.821227993353
-      ],
-      "flags": {},
-      "order": 5,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "model",
-          "type": "MODEL",
-          "link": 131
-        },
-        {
-          "name": "conditioning",
-          "type": "CONDITIONING",
-          "link": 132
-        },
-        {
-          "name": "latent_image",
-          "type": "LATENT",
-          "link": 133
-        }
-      ],
-      "outputs": [
-        {
-          "name": "latent",
-          "type": "LATENT",
-          "links": [
-            134
-          ],
-          "shape": 3,
-          "slot_index": 0
-        },
-        {
-          "name": "sampler_params",
-          "type": "SAMPLER_PARAMS",
-          "links": [
-            136
-          ],
-          "shape": 3,
-          "slot_index": 1
-        },
-        {
-          "name": "patched_blocks",
-          "type": "STRING",
-          "links": null,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "FluxBlockPatcherSampler"
-      },
-      "widgets_values": [
-        0,
-        "fixed",
-        24,
-        "deis",
-        "beta",
-        3,
-        "double_blocks\\.0\\.=1.1\ndouble_blocks\\.1\\.=1.1\ndouble_blocks\\.2\\.=1.1\ndouble_blocks\\.3\\.=1.1"
-      ]
-    },
-    {
-      "id": 10,
-      "type": "VAELoader",
-      "pos": {
-        "0": 1020,
-        "1": 319
-      },
-      "size": {
-        "0": 210,
-        "1": 58
-      },
-      "flags": {},
-      "order": 3,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "VAE",
-          "type": "VAE",
-          "links": [
-            12
-          ],
-          "slot_index": 0,
-          "shape": 3
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAELoader"
-      },
-      "widgets_values": [
-        "ae.sft"
-      ]
-    },
-    {
-      "id": 26,
-      "type": "PreviewImage",
-      "pos": {
-        "0": 1851,
-        "1": 30
-      },
-      "size": [
-        865.0372553163784,
-        918.2602634191438
-      ],
-      "flags": {},
-      "order": 8,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 137
-        }
-      ],
-      "outputs": [],
-      "properties": {
-        "Node name for S&R": "PreviewImage"
-      }
     }
   ],
   "links": [
@@ -377,38 +378,6 @@
       "VAE"
     ],
     [
-      131,
-      12,
-      0,
-      64,
-      0,
-      "MODEL"
-    ],
-    [
-      132,
-      6,
-      0,
-      64,
-      1,
-      "CONDITIONING"
-    ],
-    [
-      133,
-      59,
-      0,
-      64,
-      2,
-      "LATENT"
-    ],
-    [
-      134,
-      64,
-      0,
-      8,
-      0,
-      "LATENT"
-    ],
-    [
       135,
       8,
       0,
@@ -417,30 +386,62 @@
       "IMAGE"
     ],
     [
-      136,
-      64,
-      1,
-      65,
-      1,
-      "SAMPLER_PARAMS"
-    ],
-    [
       137,
       65,
       0,
       26,
       0,
       "IMAGE"
+    ],
+    [
+      139,
+      6,
+      0,
+      66,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      140,
+      12,
+      0,
+      66,
+      0,
+      "MODEL"
+    ],
+    [
+      141,
+      66,
+      0,
+      8,
+      0,
+      "LATENT"
+    ],
+    [
+      142,
+      66,
+      1,
+      65,
+      1,
+      "SAMPLER_PARAMS"
+    ],
+    [
+      146,
+      59,
+      0,
+      66,
+      2,
+      "LATENT"
     ]
   ],
   "groups": [],
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.630394086312919,
+      "scale": 0.7400249944258294,
       "offset": [
-        -175.11789190414686,
-        613.9746410020917
+        -136.91856411173993,
+        632.3313593450009
       ]
     },
     "groupNodes": {

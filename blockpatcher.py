@@ -28,6 +28,7 @@ class FluxBlockPatcherSampler:
                 "sampler": (comfy.samplers.KSampler.SAMPLERS, ),
                 "scheduler": (comfy.samplers.KSampler.SCHEDULERS, ),
                 "guidance": ("FLOAT", {"default": 3.5, "min": -10.0, "max": 10.0, "step": 0.1}),
+                "denoise": ("FLOAT", {"default": 1.0, "min": 0.0, "max": 1.0, "step": 0.05}),
 
                 "blocks": ("STRING", {"multiline": True, "dynamicPrompts": True, "default": "double_blocks\.([0-9]+)\.(img|txt)_(mod|attn|mlp\.[02])\.(lin|qkv|proj)\.(weight|bias)=1.1\nsingle_blocks\.([0-9]+)\.(linear[12]|modulation\.lin)\.(weight|bias)=1.1"}),
             }
@@ -37,7 +38,7 @@ class FluxBlockPatcherSampler:
     RETURN_NAMES = ("latent", "sampler_params", "patched_blocks",)
     FUNCTION = "apply_style"
 
-    def apply_style(self, model, conditioning, latent_image, noise_seed, steps, sampler, scheduler, guidance, blocks):
+    def apply_style(self, model, conditioning, latent_image, noise_seed, steps, sampler, scheduler, guidance, denoise, blocks):
         # is_schnell = model.model.model_type == comfy.model_base.ModelType.FLOW
 
         sd = model.model_state_dict()
@@ -50,7 +51,7 @@ class FluxBlockPatcherSampler:
         out_latent = None
 
         noise = Noise_RandomNoise(noise_seed)
-        sigmas = BasicScheduler().get_sigmas(model, scheduler, steps, 1.0)[0]
+        sigmas = BasicScheduler().get_sigmas(model, scheduler, steps, denoise)[0]
         cond = conditioning_set_values(conditioning, {"guidance": guidance})
         sca = SamplerCustomAdvanced()
         latentbatch = LatentBatch()
