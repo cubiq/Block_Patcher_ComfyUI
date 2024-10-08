@@ -14,7 +14,7 @@ import torchvision.transforms.v2 as T
 FONTS_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "fonts")
 
 
-class FluxBlockPatcherSampler:
+class FluxBlockPatcherSampler: 
     @classmethod
     def INPUT_TYPES(s):
         return {
@@ -22,15 +22,18 @@ class FluxBlockPatcherSampler:
                 "model": ("MODEL", ),
                 "conditioning": ("CONDITIONING", ),
                 "latent_image": ("LATENT", ),
-
+                
                 "noise_seed": ("INT", {"default": 0, "min": 0, "max": 0xffffffffffffffff}),
                 "steps": ("INT", {"default": 24, "min": 1, "max": 10000}),
                 "sampler": (comfy.samplers.KSampler.SAMPLERS, ),
                 "scheduler": (comfy.samplers.KSampler.SCHEDULERS, ),
                 "guidance": ("FLOAT", {"default": 3.5, "min": -10.0, "max": 10.0, "step": 0.1}),
                 "denoise": ("FLOAT", {"default": 1.0, "min": 0.0, "max": 1.0, "step": 0.05}),
-
+                
                 "blocks": ("STRING", {"multiline": True, "dynamicPrompts": True, "default": "double_blocks\.([0-9]+)\.(img|txt)_(mod|attn|mlp\.[02])\.(lin|qkv|proj)\.(weight|bias)=1.1\nsingle_blocks\.([0-9]+)\.(linear[12]|modulation\.lin)\.(weight|bias)=1.1"}),
+            },
+            "optional": {
+                "sigmas": ("SIGMAS",),
             }
         }
 
@@ -38,7 +41,7 @@ class FluxBlockPatcherSampler:
     RETURN_NAMES = ("latent", "sampler_params", "patched_blocks",)
     FUNCTION = "apply_style"
 
-    def apply_style(self, model, conditioning, latent_image, noise_seed, steps, sampler, scheduler, guidance, denoise, blocks):
+    def apply_style(self, model, conditioning, latent_image, noise_seed, steps, sampler, scheduler, guidance, denoise, blocks, sigmas=None):
         # is_schnell = model.model.model_type == comfy.model_base.ModelType.FLOW
 
         sd = model.model_state_dict()
@@ -49,9 +52,10 @@ class FluxBlockPatcherSampler:
         patched_blocks = []
         fbi_params = []
         out_latent = None
-
+        
         noise = Noise_RandomNoise(noise_seed)
-        sigmas = BasicScheduler().get_sigmas(model, scheduler, steps, denoise)[0]
+        if sigmas is None:
+            sigmas = BasicScheduler().get_sigmas(model, scheduler, steps, denoise)[0]
         cond = conditioning_set_values(conditioning, {"guidance": guidance})
         sca = SamplerCustomAdvanced()
         latentbatch = LatentBatch()
